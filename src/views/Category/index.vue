@@ -1,9 +1,10 @@
 <script setup>
 
+import TopCategory from "@/views/Category/components/TopCategory.vue";
 </script>
 
 <template>
-  category
+  <TopCategory/>
 </template>
 
 <style scoped>
