@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  home
+  <div style="height: 3000px"></div>
 </template>
 
 <style scoped>
