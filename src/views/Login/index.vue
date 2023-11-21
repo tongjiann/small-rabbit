@@ -1,5 +1,22 @@
 <script setup>
 
+import {ref} from "vue";
+
+const form = ref({
+  account: '',
+  password: ''
+})
+const rules = {
+  account: [
+    {required: true, message: '用户名不能为空', trigger: "blur"}
+  ],
+  password: [
+    {required: true, message: '密码不能为空', trigger: "blur"},
+    {min: 6, max: 14, required: true, message: '密码长度为 6-14位', trigger: "blur"},
+  ]
+}
+
+
 </script>
 
 
@@ -24,16 +41,16 @@
         </nav>
         <div class="account-box">
           <div class="form">
-            <el-form label-position="right" label-width="60px"
-              status-icon>
-              <el-form-item  label="账户">
-                <el-input/>
+            <el-form :model="form" :rules="rules" label-position="right" label-width="60px"
+                     status-icon>
+              <el-form-item label="账户" prop="account">
+                <el-input v-model="form.account"/>
               </el-form-item>
-              <el-form-item label="密码">
-                <el-input/>
+              <el-form-item label="密码" prop="password">
+                <el-input v-model="form.password"/>
               </el-form-item>
               <el-form-item label-width="22px">
-                <el-checkbox  size="large">
+                <el-checkbox size="large">
                   我已同意隐私条款和服务条款
                 </el-checkbox>
               </el-form-item>
@@ -157,7 +174,7 @@
       color: #999;
       display: inline-block;
 
-      ~a {
+      ~ a {
         border-left: 1px solid #ccc;
       }
     }
@@ -188,7 +205,7 @@
         position: relative;
         height: 36px;
 
-        >i {
+        > i {
           width: 34px;
           height: 34px;
           background: #cfcdcd;
@@ -233,7 +250,7 @@
         }
       }
 
-      >.error {
+      > .error {
         position: absolute;
         font-size: 12px;
         line-height: 28px;
