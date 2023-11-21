@@ -35,7 +35,7 @@ onMounted(() => getGoodDetail())
           <div class="goods-info">
             <div class="media">
               <!-- 图片预览区 -->
-              <ImageView/>
+              <ImageView :imageList="good.mainPictures"/>
               <!-- 统计数量 -->
               <ul class="goods-sales">
                 <li>

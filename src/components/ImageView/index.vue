@@ -1,15 +1,16 @@
 <script setup>
 // 图片列表
-import {ref, watch} from "vue";
+import {computed, ref, watch} from "vue";
 import {useMouseInElement} from "@vueuse/core";
 
-const imageList = [
-  "https://yanxuan-item.nosdn.127.net/d917c92e663c5ed0bb577c7ded73e4ec.png",
-  "https://yanxuan-item.nosdn.127.net/e801b9572f0b0c02a52952b01adab967.jpg",
-  "https://yanxuan-item.nosdn.127.net/b52c447ad472d51adbdde1a83f550ac2.jpg",
-  "https://yanxuan-item.nosdn.127.net/f93243224dc37674dfca5874fe089c60.jpg",
-  "https://yanxuan-item.nosdn.127.net/f881cfe7de9a576aaeea6ee0d1d24823.jpg"
-]
+defineProps({
+  imageList: {
+    type: Array,
+    default: () => [],
+    required: true
+  }
+})
+
 const activeIndex = ref(0)
 
 const enterHandler = (i) => {
@@ -21,7 +22,12 @@ const target = ref(null)
 const {elementX, elementY, isOutside} = useMouseInElement(target)
 const left = ref(0)
 const top = ref(0)
-watch([elementX, elementY], () => {
+const positionX = computed(() => -2 * left.value)
+const positionY = computed(() => -2 * top.value)
+watch([elementX, elementY, isOutside], () => {
+  if (isOutside.value) {
+    return
+  }
   if (elementX.value > 100 && elementX.value < 300) {
     left.value = elementX.value - 100
   }
@@ -53,7 +59,7 @@ watch([elementX, elementY], () => {
     <div class="middle" ref="target">
       <img :src="imageList[activeIndex]" alt=""/>
       <!-- 蒙层小滑块 -->
-      <div class="layer" :style="{ left: `${left}px`, top: `${top}px` }"></div>
+      <div class="layer" v-show="!isOutside" :style="{ left: `${left}px`, top: `${top}px` }"></div>
     </div>
     <!-- 小图列表 -->
     <ul class="small">
@@ -64,11 +70,11 @@ watch([elementX, elementY], () => {
     <!-- 放大镜大图 -->
     <div class="large" :style="[
       {
-        backgroundImage: `url(${imageList[0]})`,
-        backgroundPositionX: `0px`,
-        backgroundPositionY: `0px`,
+        backgroundImage: `url(${imageList[activeIndex]})`,
+        backgroundPositionX: `${positionX}px`,
+        backgroundPositionY: `${positionY}px`,
       },
-    ]" v-show="false"></div>
+    ]" v-show="!isOutside"></div>
   </div>
 </template>
 
