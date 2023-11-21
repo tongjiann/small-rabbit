@@ -3,6 +3,7 @@ import {onMounted, ref} from "vue";
 import {useRoute} from "vue-router";
 import {getDetail} from "../../apis/detail";
 import DetailHot from "./components/DetailHot.vue";
+import ImageView from "@/components/ImageView/index.vue"
 
 const good = ref({})
 const getGoodDetail = async () => {
@@ -34,38 +35,38 @@ onMounted(() => getGoodDetail())
           <div class="goods-info">
             <div class="media">
               <!-- 图片预览区 -->
-
+              <ImageView/>
               <!-- 统计数量 -->
               <ul class="goods-sales">
                 <li>
                   <p>销量人气</p>
-                  <p> {{good.salesCount}} </p>
+                  <p> {{ good.salesCount }} </p>
                   <p><i class="iconfont icon-task-filling"></i>销量人气</p>
                 </li>
                 <li>
                   <p>商品评价</p>
-                  <p>{{good.commentCount}}</p>
+                  <p>{{ good.commentCount }}</p>
                   <p><i class="iconfont icon-comment-filling"></i>查看评价</p>
                 </li>
                 <li>
                   <p>收藏人气</p>
-                  <p>{{ good.collectCount}}</p>
+                  <p>{{ good.collectCount }}</p>
                   <p><i class="iconfont icon-favorite-filling"></i>收藏商品</p>
                 </li>
                 <li>
                   <p>品牌信息</p>
-                  <p>{{good.brand.name}}</p>
+                  <p>{{ good.brand.name }}</p>
                   <p><i class="iconfont icon-dynamic-filling"></i>品牌主页</p>
                 </li>
               </ul>
             </div>
             <div class="spec">
               <!-- 商品信息区 -->
-              <p class="g-name"> {{good.name}} </p>
-              <p class="g-desc">{{good.desc}} </p>
+              <p class="g-name"> {{ good.name }} </p>
+              <p class="g-desc">{{ good.desc }} </p>
               <p class="g-price">
-                <span>{{good.oldPrice}}</span>
-                <span> {{ good.price}}</span>
+                <span>{{ good.oldPrice }}</span>
+                <span> {{ good.price }}</span>
               </p>
               <div class="g-service">
                 <dl>
@@ -106,8 +107,8 @@ onMounted(() => getGoodDetail())
                   <!-- 属性 -->
                   <ul class="attrs">
                     <li v-for="item in good.details.properties" :key="item.value">
-                      <span class="dt">{{item.name}}</span>
-                      <span class="dt">{{item.value}}</span>
+                      <span class="dt">{{ item.name }}</span>
+                      <span class="dt">{{ item.value }}</span>
                     </li>
                   </ul>
                   <!-- 图片 -->
