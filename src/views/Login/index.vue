@@ -1,10 +1,13 @@
 <script setup>
 
 import {ref} from "vue";
+import {useUserStore} from "../../stores/user";
+import {ElMessage} from "element-plus";
+import router from "../../router";
 
 const form = ref({
-  account: '',
-  password: '',
+  account: 'heima290',
+  password: 'hm#qd@23!',
   agree: true
 })
 const rules = {
@@ -30,11 +33,19 @@ const rules = {
 
 
 const formRef = ref(null)
-
+const userStore = useUserStore()
 const doLogin = () => {
-  formRef.value.validate((valid) => {
-    if(valid){
-      // LOGIN
+  formRef.value.validate(async (valid) => {
+    const {account, password} = form.value
+    if (valid) {
+      await userStore.getUserInfo(account, password)
+      ElMessage({
+        type: "success",
+        message: "登录成功"
+      })
+      router.replace({
+        path: '/'
+      })
     }
   })
 }
