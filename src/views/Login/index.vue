@@ -4,7 +4,8 @@ import {ref} from "vue";
 
 const form = ref({
   account: '',
-  password: ''
+  password: '',
+  agree: true
 })
 const rules = {
   account: [
@@ -13,6 +14,18 @@ const rules = {
   password: [
     {required: true, message: '密码不能为空', trigger: "blur"},
     {min: 6, max: 14, required: true, message: '密码长度为 6-14位', trigger: "blur"},
+  ],
+  agree: [
+    {
+      validator: (rule, value, callback) => {
+        console.log(value)
+        if (!value) {
+          callback(new Error("请勾选协议"))
+        } else {
+          callback()
+        }
+      }
+    }
   ]
 }
 
@@ -49,8 +62,8 @@ const rules = {
               <el-form-item label="密码" prop="password">
                 <el-input v-model="form.password"/>
               </el-form-item>
-              <el-form-item label-width="22px">
-                <el-checkbox size="large">
+              <el-form-item label-width="22px" prop="agree">
+                <el-checkbox size="large" v-model="form.agree">
                   我已同意隐私条款和服务条款
                 </el-checkbox>
               </el-form-item>
