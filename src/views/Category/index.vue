@@ -1,35 +1,13 @@
 https://www.bilibili.com/video/BV1Ac411K7EQ/?p=45&spm_id_from=pageDriver&vd_source=d75aeb1c06c7846bd7648c0d53777a6f
 <script setup>
 // 部分代码省略
-import {getBannerAPI} from '@/apis/home'
-import {onMounted, ref} from "vue";
-import {getTopCategoryAPI} from '@/apis/category'
-import {onBeforeRouteUpdate, useRoute} from "vue-router";
 import GoodsItem from "../Home/components/GoodsItem.vue";
+import {useBanner} from "./composables/useBanner";
+import {useCategory} from "./composables/useCategory";
 
-const categoryData = ref({})
-const route = useRoute()
-const getCategory = async (id = route.params.id) => {
-  // 如何在setup中获取路由参数 useRoute() -> route 等价于this.$route
-  const res = await getTopCategoryAPI(id)
-  categoryData.value = res.result
-}
-getCategory()
 
-// 获取banner
-const bannerList = ref([])
-
-const getBanner = async () => {
-  const res = await getBannerAPI({
-    distributionSite: '2'
-  })
-  console.log(res)
-  bannerList.value = res.result
-}
-
-onMounted(() => getBanner())
-
-onBeforeRouteUpdate((to) => getCategory(to.params.id))
+const {bannerList} = useBanner()
+const {categoryData} = useCategory()
 
 </script>
 
