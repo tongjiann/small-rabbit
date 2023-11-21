@@ -4,16 +4,17 @@ https://www.bilibili.com/video/BV1Ac411K7EQ/?p=45&spm_id_from=pageDriver&vd_sour
 import {getBannerAPI} from '@/apis/home'
 import {onMounted, ref} from "vue";
 import {getTopCategoryAPI} from '@/apis/category'
-import {useRoute} from "vue-router";
+import {onBeforeRouteUpdate, useRoute} from "vue-router";
+import GoodsItem from "../Home/components/GoodsItem.vue";
 
 const categoryData = ref({})
 const route = useRoute()
-const getCategory = async (id) => {
+const getCategory = async (id = route.params.id) => {
   // 如何在setup中获取路由参数 useRoute() -> route 等价于this.$route
   const res = await getTopCategoryAPI(id)
   categoryData.value = res.result
 }
-getCategory(route.params.id)
+getCategory()
 
 // 获取banner
 const bannerList = ref([])
@@ -27,6 +28,8 @@ const getBanner = async () => {
 }
 
 onMounted(() => getBanner())
+
+onBeforeRouteUpdate((to) => getCategory(to.params.id))
 
 </script>
 
