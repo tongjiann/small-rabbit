@@ -23,7 +23,8 @@ const addCart = () => {
       count: count.value,
       skuId: skuObj.skuId,
       attrsText: skuObj.specsText,
-      selected: true
+      selected: true,
+      price: good.value.price
     }
     cartStore.addCart(reqData)
   } else {
