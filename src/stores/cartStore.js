@@ -32,6 +32,10 @@ export const useCartStore = defineStore('cart', () => {
             }
         }
 
+        const clearCart = () => {
+            cartList.value = []
+        }
+
         const updateNewList = async () => {
             const res = await findNewCartListAPI()
             cartList.value = res.result
@@ -69,6 +73,8 @@ export const useCartStore = defineStore('cart', () => {
             delCart,
             singleCheck,
             changeAll,
+            clearCart,
+            updateNewList,
             cartList,
             totalCount,
             selectedCount,
