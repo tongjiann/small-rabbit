@@ -1,5 +1,7 @@
 import axios from 'axios'
 import {useUserStore} from "@/stores/user";
+import {ElMessage} from "element-plus";
+import router from "@/router";
 
 const httpInstance = axios.create({
     baseURL: "http://pcapi-xiaotuxian-front-devtest.itheima.net/",
@@ -17,6 +19,18 @@ httpInstance.interceptors.request.use(config => {
 )
 
 httpInstance.interceptors.response.use(res => res.data,
-    e => Promise.reject(e))
+    e => {
+        Promise.reject(e)
+        ElMessage({
+            type: 'warning',
+            message: e.response.data.message
+        })
+        if (e.response.status === 401) {
+            const userStore = useUserStore()
+            userStore.clearUserInfo()
+            router.push('/login')
+        }
+        return Promise.reject(e)
+    })
 
 export default httpInstance
