@@ -95,8 +95,8 @@ const skuChange = (sku) => {
               <p class="g-name"> {{ good.name }} </p>
               <p class="g-desc">{{ good.desc }} </p>
               <p class="g-price">
-                <span>{{ good.oldPrice }}</span>
                 <span> {{ good.price }}</span>
+                <span>{{ good.oldPrice }}</span>
               </p>
               <div class="g-service">
                 <dl>
