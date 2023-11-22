@@ -19,7 +19,15 @@ export const useCartStore = defineStore('cart', () => {
 
         const totalCount = computed(() => cartList.value.reduce((a, c) => a + c.count, 0))
 
+        const selectedCount = computed(() => cartList.value
+            .filter((item) => item.selected)
+            .reduce((a, c) => a + c.count, 0))
+
         const totalPrice = computed(() => cartList.value.reduce((a, c) => a + c.count * c.price, 0))
+        const selectedPrice = computed(() => cartList.value
+            .filter((item) => item.selected)
+            .reduce((a, c) => a + c.price * c.count, 0))
+
 
         const singleCheck = (skuId, selected) => {
             // 通过skuId找到要修改的那一项 然后把它的selected修改为传过来的selected
@@ -43,7 +51,9 @@ export const useCartStore = defineStore('cart', () => {
             changeAll,
             cartList,
             totalCount,
+            selectedCount,
             totalPrice,
+            selectedPrice,
             isAll
         }
     },
