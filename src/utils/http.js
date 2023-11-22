@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {useUserStore} from "@/stores/user";
+import {useUserStore} from "@/stores/userStore";
 import {ElMessage} from "element-plus";
 import router from "@/router";
 
