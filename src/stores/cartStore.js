@@ -1,20 +1,37 @@
 import {defineStore} from "pinia";
 import {computed, ref} from "vue";
+import {useUserStore} from "@/stores/user";
+import {delCartAPI, findNewCartListAPI, insertCartAPI} from "@/apis/cart";
 
 
 export const useCartStore = defineStore('cart', () => {
+        const userStore = useUserStore()
+        const isLogin = computed(() => userStore.userInfo.token)
         const cartList = ref([])
-        const addCart = (good) => {
-            const item = cartList.value.find((item) => good.skuId === item.skuId)
-            if (item) {
-                item.count += good.count
+        const addCart = async (good) => {
+            if (isLogin.value) {
+                const {skuId, count} = good
+                await insertCartAPI({skuId, count})
+                const res = await findNewCartListAPI()
+                cartList.value = res.result
             } else {
-                cartList.value.push(good)
+                const item = cartList.value.find((item) => good.skuId === item.skuId)
+                if (item) {
+                    item.count += good.count
+                } else {
+                    cartList.value.push(good)
+                }
             }
         }
-        const delCart = (skuId) => {
-            const idx = cartList.value.findIndex((item) => skuId === item.skuId)
-            cartList.value.splice(idx, 1)
+        const delCart = async (skuId) => {
+            if (isLogin.value) {
+                await delCartAPI([skuId])
+                const res = await findNewCartListAPI()
+                cartList.value = res.result
+            } else {
+                const idx = cartList.value.findIndex((item) => skuId === item.skuId)
+                cartList.value.splice(idx, 1)
+            }
         }
 
         const totalCount = computed(() => cartList.value.reduce((a, c) => a + c.count, 0))
